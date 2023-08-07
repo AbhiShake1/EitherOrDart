@@ -5,7 +5,10 @@ Future<void> main() async {
       print('data::$data');
       return data;
     },
-    error: (error) => () => 'error::$error',
+    error: (error) => () {
+      print('errorOccurred::$error');
+      return 'error::$error';
+    },
   );
   print(processedRes?.data ?? 'error::${processedRes?.error?.call()}');
 }
@@ -14,10 +17,15 @@ Future<EitherOr<String>> repo() async {
   return EitherOr.execute(
     () => clientFunction('a'),
     // orElse: () => null,
+    // orElse: () => 'null',
   );
 }
 
-Future<String> clientFunction(String text) async => throw Exception('$text');
+Future<String> clientFunction(String text) async {
+  // throw Exception('$text');
+  // throw text;
+  return 'fromClient::$text';
+}
 
 class EitherOr<T> {
   final T? _data;
